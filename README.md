@@ -10,5 +10,8 @@ BitBucket: https://bitbucket.critical.pt/users/jr-simoes/repos/summer-camp-2022/
 
 Team Ferrari:
 	- José Lourenço
+
 	- Mariana Libório
+
 	- Pedro Silva
+
