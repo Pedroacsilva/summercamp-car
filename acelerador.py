@@ -11,7 +11,7 @@ from can.interface import Bus
 position = 0
 
 
-bus = can.interface.Bus(bustype='socketcan', channel='vcan0', bitrate=500000)
+bus = can.interface.Bus(bustype='socketcan', channel='vcan0', bitrate=500)
 
 
 
