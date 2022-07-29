@@ -16,9 +16,11 @@ while True:
     # Wait for the next event.
 	time.sleep(0.1)
 	if(keyboard.is_pressed('w')):
-		position += 5
+		if position < 100:
+			position += 5
 	if(keyboard.is_pressed('s')):
-		position -= 5
+		if position > 0:
+			position -= 5
 	if(keyboard.is_pressed('q')):
 		exit()
 
