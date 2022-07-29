@@ -23,9 +23,9 @@ while True:
         if position < 100:
         	position += 5
         	print("Posição do pedal: ", position)
-        	message = can.Message(data = position)
+        	message = can.Message(data = position.to_bytes(8, 'big'))
         	try:
-	        	bus.send(msg)
+	        	bus.send(message)
 	        	print(f"Message sent on {bus.channel_info}.")
         	except can.CanError:
         			print("Message NOT sent")
@@ -34,5 +34,12 @@ while True:
         if position > 0:
         	position -= 5
         	print("Posição do pedal: ", position)
+        	message = can.Message(data = position.to_bytes(8, 'big'))
+        	try:
+	        	bus.send(message)
+	        	print(f"Message sent on {bus.channel_info}.")
+        	except can.CanError:
+        			print("Message NOT sent")
+
     if event.event_type == keyboard.KEY_DOWN and event.name == 'q':
    		exit()
