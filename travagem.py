@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-#Motor
-#Deverá receber uma mensagem CAN do acelerador e produzir uma aceleração de acordo com a posição do pedal
-#Aceleração máxima é 5 m/s²(a 8000RPM)
+#Travagem
+#Deverá receber uma mensagem CAN do travão e produzir uma desaceleração de acordo com a posição do pedal
+#Desaceleração máxima é 6 m/s²
 import can
 import time
 import struct
@@ -22,8 +22,8 @@ try:
             aceleracao = posicao_pedal / 20
             print("RPM: ", rpm, "\nAceleração: ", aceleracao)
 #        msg_out = can.Message(data = aceleracao.to_bytes(8, 'big'), arbitration_id = 0x03)
-        acl_bytes = bytearray(struct.pack("f", aceleracao))
-        msg_out = can.Message(data = acl_bytes, arbitration_id = 0x03)
+        desacl_bytes = bytearray(struct.pack("f", aceleracao))
+        msg_out = can.Message(data = desacl_bytes, arbitration_id = 0x03)
         time.sleep(0.05)
 
 except KeyboardInterrupt:
