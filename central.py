@@ -14,6 +14,7 @@ def mps_2_kph(mps):
     return kph
 
 
+
 bus = can.interface.Bus(bustype='socketcan', channel='vcan0', bitrate=500000)
 #bus.state = BusState.PASSIVE
 acelerador = 0
@@ -44,12 +45,17 @@ try:
         t_old = t_new
         t_new = time.clock_gettime(time.CLOCK_MONOTONIC)
         delta_t = t_new - t_old
-        velocidade_carro = velocidade_carro + max([aceleracao - travagem, 0]) * (delta_t)
+        velocidade_carro = max(velocidade_carro + (aceleracao - travagem) * delta_t, 0)
         if(velocidade_carro > velocidade_max):
             velocidade_carro = velocidade_max
-#        os.system('clear')
         print("Posição do acelerador:", acelerador,".\tPosição do travão: ", travao, ".\tAceleração: ", round(aceleracao, 2), ".\tTravagem: ", round(travagem, 2), ".")
-        print("Velocidade: ", round(mps_2_kph(velocidade_carro), 2), " k/h.\tAceleração: ", max([round(aceleracao - travagem,2), 0]), " ms⁻²")
+        print("Velocidade: ", round(mps_2_kph(velocidade_carro), 2), " k/h.\tAceleração Resultante: ", round(aceleracao - travagem, 2), " ms⁻²")
+        vlc_bytes = bytearray(struct.pack("f", round(mps_2_kph(velocidade_carro), 2)))
+        try:
+            msg_out = can.Message(data = vlc_bytes, arbitration_id = 0x07, check = True)
+            bus.send(msg_out)
+        except can.CanError:
+            print("Message NOT sent")
 
 
 #        bus.flush_tx_buffer()
