@@ -23,7 +23,7 @@ try:
             print("RPM: ", rpm, "\nAceleração: ", aceleracao)
 #        msg_out = can.Message(data = aceleracao.to_bytes(8, 'big'), arbitration_id = 0x03)
         desacl_bytes = bytearray(struct.pack("f", aceleracao))
-        msg_out = can.Message(data = desacl_bytes, arbitration_id = 0x03)
+        msg_out = can.Message(data = desacl_bytes, arbitration_id = 0x04)
         time.sleep(0.05)
 
 except KeyboardInterrupt:
