@@ -27,7 +27,7 @@ while True:
 	message = can.Message(data = position.to_bytes(8, 'big'), arbitration_id = 0x02)
 	try:
 		bus.send(message)
-		print(f"TRAVAO: {bus.channel_info}. Position: ", position)
+		#print(f"TRAVAO: {bus.channel_info}. Position: ", position)
 	except can.CanError:
 		print("Message NOT sent")
 

@@ -14,23 +14,35 @@ acelerador = 0
 travao = 0
 aceleracao = 0
 travagem = 0
+carro_x = 0
+velocidade_carro = 0
+t_new = time.clock_gettime(time.CLOCK_MONOTONIC)
+t_old = t_new
 try:
     while True:
-        msg = bus.recv(0.000001)
+        msg = bus.recv(0.05)
         if msg is not None:
             id = msg.arbitration_id
-            print("ID: ", id)
+
+#            print("ID: ", id)
             if id == 0x01:
                 acelerador = int.from_bytes(msg.data, 'big')
             if id == 0x02:
                 travao = int.from_bytes(msg.data, 'big')
             if id == 0x03:
-                aceleracao = struct.unpack('>f', msg.data)
+                aceleracao = struct.unpack('f', msg.data)[0]
             if id == 0x04:
-                travagem = struct.unpack('>f', msg.data)
-        print("\rPosição do acelerador:", acelerador,".\tPosição do travão: ", travao, ".\tAceleração: ", aceleracao, ".\tTravagem: ", travagem, ".")
-        time.sleep(0.05)
+                travagem = struct.unpack('f', msg.data)[0]
 
+        t_old = t_new
+        t_new = time.clock_gettime(time.CLOCK_MONOTONIC)
+        delta_t = t_new - t_old
+        velocidade_carro = velocidade_carro + max([aceleracao - travagem, 0]) * (delta_t)
+        print("Posição do acelerador:", acelerador,".\tPosição do travão: ", travao, ".\tAceleração: ", round(aceleracao, 2), ".\tTravagem: ", round(travagem, 2), ".")
+        print("Velocidade: ", round(velocidade_carro, 2), " m/s.\tAceleração: ", max([round(aceleracao - travagem,2), 0]), " ms⁻²")
+
+
+#        bus.flush_tx_buffer()
 except KeyboardInterrupt:
     pass
 
