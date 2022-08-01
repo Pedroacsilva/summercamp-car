@@ -7,7 +7,7 @@ import can
 import time
 from can.interface import Bus
 
-bus = can.interface.Bus(bustype='socketcan', channel='vcan0', bitrate=500)
+bus = can.interface.Bus(bustype='socketcan', channel='vcan0', bitrate=500000)
 
 position = 0
 
@@ -27,7 +27,7 @@ while True:
 	message = can.Message(data = position.to_bytes(8, 'big'), arbitration_id = 0x01)
 	try:
 		bus.send(message)
-		print(f"Message sent on {bus.channel_info}. Position: ", position)
+		print(f"ACELERADOR. {bus.channel_info}. Posição: ", position)
 	except can.CanError:
 		print("Message NOT sent")
 

@@ -9,21 +9,20 @@ import struct
 from can.bus import BusState
 
 
-bus = can.interface.Bus(bustype='socketcan', channel='vcan0', bitrate=500)
+bus = can.interface.Bus(bustype='socketcan', channel='vcan0', bitrate=500000)
 #bus.state = BusState.PASSIVE
 try:
     while True:
-        msg = bus.recv(None)
+        msg = bus.recv(0.000001)
 
-        if msg is not None and msg.arbitration_id == 0x01:
+        if msg is not None and msg.arbitration_id == 0x02:
 #            print(msg)
             posicao_pedal = int.from_bytes(msg, 'big')
-            rpm = posicao_pedal * 80
-            aceleracao = posicao_pedal / 20
-            print("RPM: ", rpm, "\nAceleração: ", aceleracao)
-#        msg_out = can.Message(data = aceleracao.to_bytes(8, 'big'), arbitration_id = 0x03)
-        desacl_bytes = bytearray(struct.pack("f", aceleracao))
+            travagem = posicao_pedal / (100 / 6)
+#            print("Travagem: ", travagem)
+        desacl_bytes = bytearray(struct.pack("f", travagem))
         msg_out = can.Message(data = desacl_bytes, arbitration_id = 0x04)
+        bus.send(msg_out)
         time.sleep(0.05)
 
 except KeyboardInterrupt:
