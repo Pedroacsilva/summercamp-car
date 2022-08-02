@@ -58,7 +58,7 @@ try:
         velocidade_carro = max(velocidade_carro + (aceleracao - travagem) * delta_t, 0)
         if(velocidade_carro > velocidade_max):
             velocidade_carro = velocidade_max
-        if (handbrake == True):
+        if handbrake == True and state != State.DRIVING:
             velocidade_carro = 0        #Forçar velocidade a 0
         print("Posição do acelerador:", acelerador,".\tPosição do travão: ", travao, ".\tAceleração: ", round(aceleracao, 2), ".\tTravagem: ", round(travagem, 2), ".")
         print("Velocidade: ", round(mps_2_kph(velocidade_carro), 2), " k/h.\tAceleração Resultante: ", round(aceleracao - travagem, 2), " ms⁻²")
