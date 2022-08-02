@@ -1,0 +1,54 @@
+#:import Factory kivy.factory.Factory
+
+<BoxLayout>:
+    height: 30
+
+    
+
+GridLayout:
+    rows: 2
+    spacing: 10
+
+    Button:
+        text: 'Parking Brake'
+        on_press: root.ids.mylabel.text = "Parking Brake on"
+        on_release: print("Parking Brake ON!")
+        on_state:
+            print("my current state is {}".format(self.state))
+    SpeedMeter:
+        id: speed
+        max: speed_value.max
+        tick: 20
+        start_angle: -120
+        end_angle: 120
+        subtick: 5
+        label: 'Km/h'
+        value: speed_value.value
+        cadran_color: '#0f0f0f'
+        needle_color: '#ff0000'
+        sectors: (0, '#ffffff')
+
+    Slider:
+        id: speed_value
+        max: 200
+        size_hint_y: None
+        height: sp(28)
+        on_value: app.set_speed()
+        on_value: root.ids.mylabel.text = "Driving"
+    Label:
+        text: str(speed.value)
+
+    SpeedMeter:
+        id: rpm
+        max: 8
+        tick: 1
+        start_angle: -120
+        end_angle: 120
+        subtick: 4
+        label: 'rpm'
+        sectors: [0, '#000000', 6, '#ffff00', 7, '#ff0000', 8]
+        sector_width: 5
+
+    Label:
+        id:mylabel
+        text: "Car Status"
