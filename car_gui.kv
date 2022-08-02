@@ -1,9 +1,7 @@
 #:import Factory kivy.factory.Factory
 
-<BoxLayout>:
-    height: 60
-
-    
+<MyGrid>:
+  
 
 GridLayout:
     rows: 3
@@ -50,7 +48,11 @@ GridLayout:
 
     Button:
         text: 'Parking Brake'
-        on_press: root.ids.mylabel.text = "Parking Brake on"
-        on_release: print("Parking Brake ON!")
-        on_state:
-            print("my current state is {}".format(self.state))
+        background_color: 0.1, 0.5, 0.6, 1
+        on_press: app.btn('1') # aqui se for app.btn('0') destrava
+        on_press: root.ids.mylabel.text = "Parking Brake on" if app.btn('1') == 1 else "Parking Brake OFF"
+        on_release: 
+            print("Parking Brake ON!")
+        on_press:
+
+    
