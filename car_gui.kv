@@ -8,13 +8,11 @@
 GridLayout:
     rows: 2
     spacing: 10
+    
+    Image:
+        source: 'ferrari.png'
 
-    Button:
-        text: 'Parking Brake'
-        on_press: root.ids.mylabel.text = "Parking Brake on"
-        on_release: print("Parking Brake ON!")
-        on_state:
-            print("my current state is {}".format(self.state))
+    
     SpeedMeter:
         id: speed
         max: speed_value.max
@@ -35,6 +33,7 @@ GridLayout:
         height: sp(28)
         on_value: app.set_speed()
         on_value: root.ids.mylabel.text = "Driving"
+
     Label:
         text: str(speed.value)
 
@@ -52,3 +51,10 @@ GridLayout:
     Label:
         id:mylabel
         text: "Car Status"
+
+    Button:
+        text: 'Parking Brake'
+        on_press: root.ids.mylabel.text = "Parking Brake on"
+        on_release: print("Parking Brake ON!")
+        on_state:
+            print("my current state is {}".format(self.state))    
